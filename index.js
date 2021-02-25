@@ -24,7 +24,9 @@ client.on('message', message => {
 
   if (message.content.startsWith(config.discord.prefix)) {
     message.react("👋");
-    const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
+    //const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
+
+    channel = message.channel;
 
     if (message.content === config.discord.prefix + ' all' || message.content === config.discord.prefix) {
       for (const repo of Object.values(config.repositories))
@@ -109,13 +111,14 @@ handler.on('push', function (event) {
   )
   switch (event.path) {
     case '/front':
-      console.log('front');
+      req(client.channels.cache.get(config.discord.channel), config.repositories.front.id, config.repositories.front.token);
       break
     case '/back':
-      console.log('back');
+      req(client.channels.cache.get(config.discord.channel), config.repositories.back.id, config.repositories.back.token);
       break
     default:
-      console.log('def');
+      req(client.channels.cache.get(config.discord.channel), config.repositories.front.id, config.repositories.front.token);
+      req(client.channels.cache.get(config.discord.channel), config.repositories.back.id, config.repositories.back.token);
       break
   }
 })

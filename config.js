@@ -16,12 +16,12 @@ export default {
     front: {
       token: process.env.TOKEN_FRONT,
       id: process.env.ID_FRONT,
-      secret: process.env.SECRET_FRONT,
+      secret: process.env.ID_FRONT,
     },
     back: {
       token: process.env.TOKEN_BACK,
       id: process.env.ID_BACK,
-      secret: process.env.SECRET_BACK,
+      secret: process.env.ID_FRONT,
     }
   },
 
