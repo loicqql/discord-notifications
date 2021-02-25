@@ -3,8 +3,8 @@ import fetch from 'node-fetch';
 import path from 'path';
 import config from './config.js';
 
-import http from http;
-import createHandler from node-gitlab-webhook;
+import http from 'http';
+import createHandler from 'node-gitlab-webhook';
 
 var handler = createHandler([ // multiple handlers
   { path: '/front', secret: config.front.secret},
