@@ -26,7 +26,7 @@ client.on('message', message => {
     message.react("👋");
     //const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
 
-    channel = message.channel;
+    const channel = message.channel;
 
     if (message.content === config.discord.prefix + ' all' || message.content === config.discord.prefix) {
       for (const repo of Object.values(config.repositories))
