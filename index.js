@@ -7,8 +7,8 @@ import http from 'http';
 import createHandler from 'node-gitlab-webhook';
 
 var handler = createHandler([ // multiple handlers
-  { path: '/front', secret: config.front.secret},
-  { path: '/back', secret: config.back.secret }
+  { path: '/front', secret: config.repositories.front.secret},
+  { path: '/back', secret: config.repositories.back.secret }
 ]);
 
 http.createServer(function (req, res) {
