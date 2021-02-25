@@ -17,7 +17,7 @@ client.login(config.discord.token);
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity(config.url.replace('https://', '').replace('http://', ''), { type: 'LISTENING' });
+  client.user.setActivity(config.url.substring(0, config.url.length - 1).replace('https://', '').replace('http://', ''), { type: 'LISTENING' });
 });
 
 client.on('message', message => {
