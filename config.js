@@ -21,7 +21,7 @@ export default {
     back: {
       token: process.env.TOKEN_BACK,
       id: process.env.ID_BACK,
-      secret: process.env.TOKEN_BACK,
+      secret: process.env.SECRET_BACK,
     }
   },
 
