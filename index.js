@@ -4,7 +4,6 @@ import path from 'path';
 import config from './config.js';
 
 const client = new Discord.Client();
-const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
 
 client.login(config.discord.token);
 
@@ -17,6 +16,7 @@ client.on('message', message => {
 
   if (message.content.startsWith(config.discord.prefix + ' ')) {
     message.react("👋");
+    const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
 
     if (message.content === config.discord.prefix + ' all' || message.content === config.discord.prefix) {
       for (const repo of Object.values(config.repositories))
