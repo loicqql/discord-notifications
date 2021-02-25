@@ -14,7 +14,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-  if (message.content.startsWith(config.discord.prefix + ' ')) {
+  if (message.content.startsWith(config.discord.prefix)) {
     message.react("👋");
     const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
 
@@ -24,7 +24,7 @@ client.on('message', message => {
     }
     else {
       for (const [key, repo] of Object.entries(config.repositories)) {
-        if (message.content.includes(key)) {
+        if (message.content.startsWith(config.discord.prefix + " ") && message.content.includes(key)) {
           req(channel, repo.id, repo.token);
         }
       }
