@@ -89,10 +89,6 @@ function formatDate(date) {
 }
 
 http.createServer(function (req, res) {
-  console.log('server');
-
-  console.log(req);
-
   handler(req, res, function (err) {
     res.statusCode = 404;
     res.end('no such location');
@@ -104,11 +100,6 @@ handler.on('error', function (err) {
 })
  
 handler.on('push', function (event) {
-  console.log(
-    'Received a push event for %s to %s',
-    event.payload.repository.name,
-    event.payload.ref
-  )
   switch (event.path) {
     case '/front':
       req(client.channels.cache.get(config.discord.channel), config.repositories.front.id, config.repositories.front.token);
