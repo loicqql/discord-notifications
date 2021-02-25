@@ -11,37 +11,6 @@ var handler = createHandler([ // multiple handlers
   { path: '/back', secret: config.repositories.back.secret }
 ]);
 
-http.createServer(function (req, res) {
-  console.log('server');
-  handler(req, res, function (err) {
-    res.statusCode = 404;
-    res.end('no such location')
-  })
-}).listen(8080);
-
-handler.on('error', function (err) {
-  console.error('Error:', err.message)
-})
- 
-handler.on('push', function (event) {
-  console.log(
-    'Received a push event for %s to %s',
-    event.payload.repository.name,
-    event.payload.ref
-  )
-  switch (event.path) {
-    case '/front':
-      console.log('front');
-      break
-    case '/back':
-      console.log('back');
-      break
-    default:
-      console.log('def');
-      break
-  }
-})
-
 const client = new Discord.Client();
 
 client.login(config.discord.token);
@@ -116,3 +85,37 @@ function req(channel, id, token) {
 function formatDate(date) {
   return date.getHours() + 'h' + date.getMinutes() + ' - ' + date.getDate() + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
 }
+
+http.createServer(function (req, res) {
+  console.log('server');
+
+  console.log(req);
+
+  handler(req, res, function (err) {
+    res.statusCode = 404;
+    res.end('no such location');
+  })
+}).listen($PORT);
+
+handler.on('error', function (err) {
+  console.error('Error:', err.message);
+})
+ 
+handler.on('push', function (event) {
+  console.log(
+    'Received a push event for %s to %s',
+    event.payload.repository.name,
+    event.payload.ref
+  )
+  switch (event.path) {
+    case '/front':
+      console.log('front');
+      break
+    case '/back':
+      console.log('back');
+      break
+    default:
+      console.log('def');
+      break
+  }
+})
