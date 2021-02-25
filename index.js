@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import fetch from 'node-fetch';
 import path from 'path';
-import config from './config';
+import config from './config.js';
 
 const client = new Discord.Client();
 const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
