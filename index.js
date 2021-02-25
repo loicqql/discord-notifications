@@ -3,6 +3,45 @@ import fetch from 'node-fetch';
 import path from 'path';
 import config from './config.js';
 
+import http from http;
+import createHandler from node-gitlab-webhook;
+
+var handler = createHandler([ // multiple handlers
+  { path: '/front', secret: config.front.secret},
+  { path: '/back', secret: config.back.secret }
+]);
+
+http.createServer(function (req, res) {
+  console.log('server');
+  handler(req, res, function (err) {
+    res.statusCode = 404;
+    res.end('no such location')
+  })
+}).listen(8080);
+
+handler.on('error', function (err) {
+  console.error('Error:', err.message)
+})
+ 
+handler.on('push', function (event) {
+  console.log(
+    'Received a push event for %s to %s',
+    event.payload.repository.name,
+    event.payload.ref
+  )
+  switch (event.path) {
+    case '/front':
+      console.log('front');
+      break
+    case '/back':
+      console.log('back');
+      break
+    default:
+      console.log('def');
+      break
+  }
+})
+
 const client = new Discord.Client();
 
 client.login(config.discord.token);

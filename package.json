@@ -6,7 +6,8 @@
   "type": "module",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "node-gitlab-webhook": "^1.0.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
