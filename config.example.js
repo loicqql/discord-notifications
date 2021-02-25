@@ -2,32 +2,32 @@ export default {
   // Discord related parameters
   discord: {
     // Discord token
-    token: process.env.TOKEN_DISCORD,
+    token: 'discord_token',
 
     // Bot command prefix
-    prefix: process.env.PREFIX,
+    prefix: '!git',
 
     // Channel ID (optional, "auto" or null will pick the channel of the call message)
-    channel: process.env.CHANNEL,
+    channel: 'auto',
   },
 
   // Repositories you want to get
   repositories: {
     front: {
-      token: process.env.TOKEN_FRONT,
-      id: process.env.ID_FRONT
+      token: 'authorization_token',
+      id: 'repository_repo'
     },
     back: {
-      token: process.env.TOKEN_BACK,
-      id: process.env.ID_BACK
+      token: 'authorization_token',
+      id: 'repository_repo'
     }
   },
 
   // Authentication token
   auth: {
-    token: process.env.TOKEN_USER
+    token: 'authorization_token'
   },
 
   // Gitlab instance url
-  url: process.env.URL
+  url: 'https://gitlab.com/',
 }
