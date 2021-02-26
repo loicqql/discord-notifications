@@ -22,8 +22,17 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
+  if(message.content === "!channel") {
+    message.channel.send(message.channel.id);
+  }
+
   if (message.content.startsWith(config.discord.prefix)) {
-    message.react("👋");
+    if(config.discord.emoji) {
+      let emoji = client.emojis.cache.find(emoji => emoji.name === "bernard");
+      message.react(emoji ? emoji.id : "👋");
+    }else {
+      message.react("👋");
+    }
     //const channel = !config.discord.channel || config.discord.channel === 'auto' ? message.channel : config.discord.channel;
 
     const channel = message.channel;

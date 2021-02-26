@@ -9,6 +9,9 @@ export default {
 
     // Channel ID (optional, "auto" or null will pick the channel of the call message)
     channel: process.env.CHANNEL,
+
+    //Name of emoji use for react (optional, dot not use :)
+    emoji: process.env.EMOJI,
   },
 
   // Repositories you want to get
