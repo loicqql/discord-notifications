@@ -1,5 +1,5 @@
 {
-  "name": "GitNotifs",
+  "name": "git-notifs",
   "version": "1.0.0",
   "description": "Notifications",
   "main": "index.js",
