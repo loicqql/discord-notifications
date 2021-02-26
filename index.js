@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import fetch from 'node-fetch';
 import path from 'path';
-import config from './config.js';
+import config from './config.local.js';
 
 import http from 'http';
 import createHandler from 'node-gitlab-webhook';

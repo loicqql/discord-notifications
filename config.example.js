@@ -9,17 +9,22 @@ export default {
 
     // Channel ID (optional, "auto" or null will pick the channel of the call message)
     channel: 'auto',
+
+    //Name of emoji use for react (optional, dot not use :)
+    emoji: 'emojiName',
   },
 
   // Repositories you want to get
   repositories: {
     front: {
       token: 'authorization_token',
-      id: 'repository_repo'
+      id: 'repository_repo',
+      secret: 'secret_repo',
     },
     back: {
       token: 'authorization_token',
-      id: 'repository_repo'
+      id: 'repository_repo',
+      secret: 'secret_repo',
     }
   },
 
@@ -29,5 +34,5 @@ export default {
   },
 
   // Gitlab instance url
-  url: 'https://gitlab.com/',
+  url: 'https://gitlab.com/'
 }
