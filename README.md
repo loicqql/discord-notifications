@@ -25,13 +25,13 @@ export default {
       token: 'authorization_token',
       id: 'repository_repo',
       secret: 'secret_repo',
-      slug: 'slug_webhook'
+      slug: '/slug_webhook'
     },
     back: {
       token: 'authorization_token',
       id: 'repository_repo',
       secret: 'secret_repo',
-      slug: 'slug_webhook'
+      slug: '/slug_webhook'
     }
   },
 
