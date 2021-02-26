@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // Discord related parameters
   discord: {
     // Discord token

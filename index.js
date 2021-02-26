@@ -1,10 +1,11 @@
-import Discord from 'discord.js';
-import fetch from 'node-fetch';
-import path from 'path';
-import config from './config.js';
+const Discord = require('discord.js');
+const fetch = require('node-fetch');
+const path = require('path');
 
-import http from 'http';
-import createHandler from 'node-gitlab-webhook';
+const config = require('./config.js');
+
+const http = require('http');
+const createHandler = require('node-gitlab-webhook');
 
 let routes = [];
 
