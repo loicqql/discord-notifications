@@ -107,14 +107,13 @@ http.createServer(function (req, res) {
     res.statusCode = 404;
     res.end('no such location');
   })
-}).listen(process.env.PORT);
+}).listen(config.port);
 
 handler.on('error', function (err) {
   console.error('Error:', err.message);
 })
  
 handler.on('push', function (event) {
-
   for (const repo of Object.values(config.repositories)) {
     if(repo.slug === event.path) {
       req(client.channels.cache.get(config.discord.channel), repo.id, repo.token);

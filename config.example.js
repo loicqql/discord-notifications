@@ -36,5 +36,8 @@ export default {
   },
 
   // Gitlab instance url
-  url: 'https://gitlab.com/'
+  url: 'https://gitlab.com/',
+
+  // Server port
+  port: '8080'
 }
