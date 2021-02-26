@@ -1,6 +1,8 @@
 module.exports = {
   apps : [{
     name: "discord-notifications",
-    script: "./index.js"
+    instances: '1',
+    script: 'npm',
+    args: 'start',
   }]
 }
