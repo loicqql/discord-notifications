@@ -6,10 +6,15 @@ import config from './config.js';
 import http from 'http';
 import createHandler from 'node-gitlab-webhook';
 
-var handler = createHandler([ // multiple handlers
-  { path: '/front', secret: config.repositories.front.secret},
-  { path: '/back', secret: config.repositories.back.secret }
-]);
+let routes = [];
+
+for (const repo of Object.values(config.repositories)) {
+  routes.push({
+    path: repo.slug, secret: repo.secret
+  })
+}
+
+var handler = createHandler(routes);
 
 const client = new Discord.Client();
 
@@ -28,7 +33,7 @@ client.on('message', message => {
 
   if (message.content.startsWith(config.discord.prefix)) {
     if(config.discord.emoji) {
-      let emoji = client.emojis.cache.find(emoji => emoji.name === "bernard");
+      let emoji = client.emojis.cache.find(emoji => emoji.name === config.discord.emoji);
       message.react(emoji ? emoji.id : "👋");
     }else {
       message.react("👋");
@@ -109,16 +114,10 @@ handler.on('error', function (err) {
 })
  
 handler.on('push', function (event) {
-  switch (event.path) {
-    case '/front':
-      req(client.channels.cache.get(config.discord.channel), config.repositories.front.id, config.repositories.front.token);
-      break
-    case '/back':
-      req(client.channels.cache.get(config.discord.channel), config.repositories.back.id, config.repositories.back.token);
-      break
-    default:
-      req(client.channels.cache.get(config.discord.channel), config.repositories.front.id, config.repositories.front.token);
-      req(client.channels.cache.get(config.discord.channel), config.repositories.back.id, config.repositories.back.token);
-      break
+
+  for (const repo of Object.values(config.repositories)) {
+    if(repo.slug === event.path) {
+      req(client.channels.cache.get(config.discord.channel), repo.id, repo.token);
+    }
   }
 })

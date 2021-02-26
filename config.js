@@ -20,11 +20,13 @@ export default {
       token: process.env.TOKEN_FRONT,
       id: process.env.ID_FRONT,
       secret: process.env.SECRET_FRONT,
+      slug: process.env.SLUG_FRONT
     },
     back: {
       token: process.env.TOKEN_BACK,
       id: process.env.ID_BACK,
       secret: process.env.SECRET_BACK,
+      slug: process.env.SLUG_BACK
     }
   },
 
