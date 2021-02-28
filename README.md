@@ -44,6 +44,12 @@ module.exports = {
   url: 'https://gitlab.com/',
 
   // Server port
-  port: '8080'
+  port: '8080',
+
+  // Set Local Time, 
+  time: {
+    locales: 'fr-FR',
+    timezone: 'Europe/Paris'
+  }
 }
 ```

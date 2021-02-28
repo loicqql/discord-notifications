@@ -84,23 +84,23 @@ function req(channel, id, token) {
         .then(res => res.json())
         .then(url => {
           // Get commit date
-          const date = new Date(json[json.length - 1].committed_date);
+          const date = new Date(json[json.length - 1].committed_date).toLocaleString(config.time.locales, {timeZone: config.time.timezone});
+          const color = new Date(json[json.length - 1].committed_date).getTime();
+
           // Send commit message to channel
-          send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, formatDate(date), date.getTime(), url.avatar_url);
+          send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, date, color, url.avatar_url);
         });
       }
       else {
         // Get commit date
-        const date = new Date(json[json.length - 1].committed_date);
+        const date = new Date(json[json.length - 1].committed_date).toLocaleString(config.time.locales, {timeZone: config.time.timezone});
+        const color = new Date(json[json.length - 1].committed_date).getTime();
+
         // Send commit message to channel
-        send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, formatDate(date), date.getTime(), path.resolve('./assets/img/default_avatar.png'));
+        send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, date, color, path.resolve('./assets/img/default_avatar.png'));
       }
     });
   });
-}
-
-function formatDate(date) {
-  return date.getHours() + 'h' + date.getMinutes() + ' - ' + date.getDate() + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
 }
 
 http.createServer(function (req, res) {

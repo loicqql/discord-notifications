@@ -39,5 +39,11 @@ module.exports = {
   url: 'https://gitlab.com/',
 
   // Server port
-  port: '8080'
+  port: '8080',
+
+  // Set Local Time
+  time: {
+    locales: 'fr-FR', //https://www.w3schools.com/jsref/jsref_tolocalestring.asp
+    timezone: 'Europe/Paris' //https://stackoverflow.com/questions/439630/create-a-date-with-a-set-timezone-without-using-a-string-representation#answer-54453990
+  }
 }
