@@ -7,10 +7,13 @@ module.exports = {
     // Bot command prefix
     prefix: '!git',
 
-    // Channel ID (optional, "auto" or null will pick the channel of the call message)
-    channel: 'auto',
+    // Channel ID
+    channel: 'xxx',
 
-    //Name of emoji use for react (optional, dot not use :)
+    // Guild ID
+    guild: 'xxx',
+
+    //Name of emoji use for react (optional, do not use :)
     emoji: 'emojiName',
   },
 

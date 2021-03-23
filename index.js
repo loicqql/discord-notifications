@@ -24,6 +24,71 @@ client.login(config.discord.token);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.user.setActivity(config.url.substring(0, config.url.length - 1).replace('https://', '').replace('http://', ''), { type: 'LISTENING' });
+
+  let choices = [];
+
+  for (const [key, repo] of Object.entries(config.repositories)) {
+    choices.push({
+      "name": key,
+      "value": key
+    })
+  }
+
+  client.api.applications(client.user.id).guilds(config.discord.guild).commands.post({
+    data: {
+        name: "git",
+        description: "Get the lastest push",
+        options: [{
+          "name": "repo",
+          "description" : "name of the repo",
+          "type": 3,
+          "required": true,
+          "choices": choices
+        }]
+    }
+  });
+
+  client.ws.on('INTERACTION_CREATE', async (interaction) => {
+
+    const command = interaction.data.options[0].value;
+    
+    for (const [key, repo] of Object.entries(config.repositories)) {
+      if (command === key) {
+        req(client.channels.cache.get(interaction.channel_id), repo.id, repo.token, async (req) => {
+
+          const embed = new Discord.MessageEmbed()
+          .setColor(Math.floor((Math.abs(Math.sin(req.now) * 16777215)) % 16777215).toString(16))
+          .setTitle(`Push: ${req.name}`)
+          .addFields(
+            { name: 'Message', value: `[${req.message}](${req.link})` },
+            { name: 'Date', value: req.date }
+          )
+          .setAuthor(req.author, req.avatar);
+
+          const createApiMessage = async (interaction, content) => {
+            const {data, files} = await Discord.APIMessage.create(
+              client.channels.resolve(interaction.channel_id), 
+              content
+            )
+            .resolveData()
+            .resolveFiles()
+
+            return{...data, files}
+          }
+
+          let data = await createApiMessage(interaction, embed);
+
+          client.api.interactions(interaction.id, interaction.token).callback.post({
+            data: {
+              type: 4,
+              data: data
+            }
+          });
+        });
+      }
+    }
+  })
+
 });
 
 client.on('message', message => {
@@ -70,7 +135,7 @@ function send(channel, name,  message, author, link, date, now, avatar) {
     channel.send(embed);
 }
 
-function req(channel, id, token) {
+function req(channel, id, token, slash) {
   fetch(`${config.url}api/v4/projects/${id}`, { method: 'GET', headers: {'PRIVATE-TOKEN': token} })
   .then(res => res.json())
   .then(json => {
@@ -87,8 +152,13 @@ function req(channel, id, token) {
           const date = new Date(json[json.length - 1].committed_date).toLocaleString(config.time.locales, {timeZone: config.time.timezone});
           const color = new Date(json[json.length - 1].committed_date).getTime();
 
-          // Send commit message to channel
-          send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, date, color, url.avatar_url);
+          if(slash) {
+            // Reply to slash command
+            slash({channel: channel, name: name, message: json[json.length - 1].message, author: json[json.length - 1].author_name, link: json[json.length - 1].web_url, date: date, now: color, avatar: url.avatar_url});
+          }else {
+            // Send commit message to channel
+            send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, date, color, url.avatar_url);
+          }
         });
       }
       else {
@@ -96,8 +166,14 @@ function req(channel, id, token) {
         const date = new Date(json[json.length - 1].committed_date).toLocaleString(config.time.locales, {timeZone: config.time.timezone});
         const color = new Date(json[json.length - 1].committed_date).getTime();
 
-        // Send commit message to channel
-        send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, date, color, path.resolve('./assets/img/default_avatar.png'));
+        if(slash) {
+          // Reply to slash command
+          slash({channel: channel, name: name, message: json[json.length - 1].message, author: json[json.length - 1].author_name, link: json[json.length - 1].web_url, date: date, now: color, avatar: path.resolve('./assets/img/default_avatar.png')})
+        }else {
+          // Send commit message to channel
+          send(channel, name, json[json.length - 1].message, json[json.length - 1].author_name, json[json.length - 1].web_url, date, color, path.resolve('./assets/img/default_avatar.png'));
+        }
+
       }
     });
   });
